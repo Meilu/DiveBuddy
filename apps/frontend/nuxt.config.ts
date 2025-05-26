@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
+import { execSync } from 'child_process';
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
@@ -45,7 +46,22 @@ export default defineNuxtConfig({
       firebaseStorageBucket: '',
       firebaseMessagingSenderId: '',
       firebaseAppId: '',
-      firebaseMeasurementId: ''
+      firebaseMeasurementId: '',
+      gitInfo: getGitInfo()
     }
   }
 });
+
+function getGitInfo() {
+  try {
+    return {
+      short: execSync('git rev-parse --short HEAD').toString().trim(),
+      hash: execSync('git rev-parse HEAD').toString().trim(),
+      message: execSync('git log -1 --pretty=%B').toString().trim(),
+      author: execSync('git log -1 --pretty=%an').toString().trim(),
+      date: execSync('git log -1 --pretty=%ad').toString().trim(),
+    };
+  } catch (error) {
+    return { short: 'N/A', error: 'Failed to load git info' };
+  }
+}

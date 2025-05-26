@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="justify-center">
-      <v-col cols="12" sm="12" md="5">
+      <v-col cols="12" sm="12" md="10">
         <v-card class="mx-auto" prepend-icon="mdi-account">
           <template v-slot:title>
             <span class="font-weight-black">DiveBuddy</span>

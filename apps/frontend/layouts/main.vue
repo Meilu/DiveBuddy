@@ -51,7 +51,7 @@
       <v-card>
         <v-card-title>Current Commit Info</v-card-title>
         <v-card-text>
-          <!-- <vue-json-pretty :data="gitInfo" :deep="4" :key-name-as-string="true" /> -->
+          <vue-json-pretty :data="gitInfo" :deep="4" :key-name-as-string="true" />
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" @click="showBuildInfoDialog = false">OK</v-btn>
@@ -65,6 +65,12 @@
 import { ref, onMounted, watch } from "vue";
 import { useDisplay } from "vuetify";
 import { useRouter } from "vue-router";
+import VueJsonPretty from 'vue-json-pretty'
+import 'vue-json-pretty/lib/styles.css';
+const config = useRuntimeConfig();
+
+const gitInfo: any = config.public.gitInfo;
+
 
 const { $userComposable } = useNuxtApp();
 const { logOutUserAction, loginError, isAuthenticated, user } = $userComposable;
