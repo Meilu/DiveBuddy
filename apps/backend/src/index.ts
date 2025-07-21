@@ -1,14 +1,20 @@
-import express from 'express'
-import { User } from '@shared'
+import express from 'express';
+import cors from 'cors';
 
-const app = express()
-const port = process.env.PORT || 3000
+import diveSites from './api/diveSites';
 
-app.get('/api/user', (_, res) => {
-  const user: User = { id: '123', email: 'test@example.com', userName: 'testuser' }
-  res.json(user)
-})
+const app = express();
+app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
+app.use('/divesites', diveSites);
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

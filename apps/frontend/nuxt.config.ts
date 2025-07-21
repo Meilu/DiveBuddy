@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
-import { execSync } from 'child_process';
+import { execSync } from "child_process";
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
@@ -8,13 +8,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ["vuetify"],
   },
-    plugins: [
-    '~/plugins/0-firebase.ts',
-    '~/plugins/vuetify',
-    '~/plugins/services/authentication.service.plugin.ts',
-    '~/plugins/stores/user.store.plugin.ts',
-    '~/plugins/composables/user.composable.plugin.ts',
-  ],
+  plugins: ["~/plugins/0-firebase.ts", "~/plugins/vuetify", "~/plugins/services/authentication.service.plugin.ts", "~/plugins/services/apiClient.service.plugin.ts", "~/plugins/stores/user.store.plugin.ts", "~/plugins/stores/settings.store.plugin.ts", "~/plugins/composables/user.composable.plugin.ts", "~/plugins/composables/settings.composable.plugin.ts"],
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
@@ -22,9 +16,13 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }));
       });
     },
-    '@pinia/nuxt',
-    'pinia-plugin-persistedstate/nuxt'
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/leaflet",
   ],
+  leaflet: {
+    markerCluster: true,
+  },
   vite: {
     vue: {
       template: {
@@ -33,35 +31,38 @@ export default defineNuxtConfig({
     },
   },
   piniaPluginPersistedstate: {
-    storage: 'sessionStorage',
-    debug: true
+    storage: "sessionStorage",
+    debug: true,
   },
   runtimeConfig: {
-    apiSecret: '',
+    apiSecret: "",
     public: {
-      apiBaseUrl: '',
-      firebaseApiKey: '',
-      firebaseAuthDomain: '',
-      firebaseProjectId: '',
-      firebaseStorageBucket: '',
-      firebaseMessagingSenderId: '',
-      firebaseAppId: '',
-      firebaseMeasurementId: '',
-      gitInfo: getGitInfo()
-    }
+      apiBaseUrl: "",
+      firebaseApiKey: "",
+      firebaseAuthDomain: "",
+      firebaseProjectId: "",
+      firebaseStorageBucket: "",
+      firebaseMessagingSenderId: "",
+      firebaseAppId: "",
+      firebaseMeasurementId: "",
+      gitInfo: getGitInfo(),
+    },
+  },
+  routeRules: {
+    '/divemap': { ssr: false }
   }
 });
 
 function getGitInfo() {
   try {
     return {
-      short: execSync('git rev-parse --short HEAD').toString().trim(),
-      hash: execSync('git rev-parse HEAD').toString().trim(),
-      message: execSync('git log -1 --pretty=%B').toString().trim(),
-      author: execSync('git log -1 --pretty=%an').toString().trim(),
-      date: execSync('git log -1 --pretty=%ad').toString().trim(),
+      short: execSync("git rev-parse --short HEAD").toString().trim(),
+      hash: execSync("git rev-parse HEAD").toString().trim(),
+      message: execSync("git log -1 --pretty=%B").toString().trim(),
+      author: execSync("git log -1 --pretty=%an").toString().trim(),
+      date: execSync("git log -1 --pretty=%ad").toString().trim(),
     };
   } catch (error) {
-    return { short: 'N/A', error: 'Failed to load git info' };
+    return { short: "N/A", error: "Failed to load git info" };
   }
 }

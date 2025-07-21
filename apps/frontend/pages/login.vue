@@ -21,8 +21,8 @@
         </v-card>
       </v-col>
     </v-row>
-    
   </v-container>
+  <Loader :is-loading="isLoading" />
 </template>
 
 <script lang="ts" setup>

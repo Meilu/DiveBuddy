@@ -9,6 +9,5 @@
       "esModuleInterop": true,          // Allow imports for CommonJS modules
       "moduleResolution": "node"        // Node-style module resolution
     },
-    "include": ["src/**/*"],
     "exclude": ["node_modules", "dist"]
   }
